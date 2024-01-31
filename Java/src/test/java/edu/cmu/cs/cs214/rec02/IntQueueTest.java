@@ -38,8 +38,8 @@ public class IntQueueTest {
     @Before
     public void setUp() {
         // comment/uncomment these lines to test each class
-        mQueue = new LinkedIntQueue();
-    //    mQueue = new ArrayIntQueue();
+        // mQueue = new LinkedIntQueue();
+        mQueue = new ArrayIntQueue();
 
         testList = new ArrayList<>(List.of(1, 2, 3));
     }
@@ -53,26 +53,31 @@ public class IntQueueTest {
     @Test
     public void testNotEmpty() {
         // TODO: write your own unit test
-        fail("Test not implemented");
+        Integer expectedValue = 5;
+        assertTrue(mQueue.enqueue(expectedValue));
+        assertFalse(mQueue.isEmpty());
     }
 
     @Test
     public void testPeekEmptyQueue() {
         // TODO: write your own unit test
-        fail("Test not implemented");
+        assertNull(mQueue.peek());
     }
+
 
     @Test
     public void testPeekNoEmptyQueue() {
         // TODO: write your own unit test
-        fail("Test not implemented");
+        Integer expectedValue = 5;
+        mQueue.enqueue(expectedValue);
+        assertEquals(expectedValue, mQueue.peek());
     }
 
     @Test
     public void testEnqueue() {
         // This is an example unit test
         for (int i = 0; i < testList.size(); i++) {
-            mQueue.enqueue(testList.get(i));
+            assertTrue(mQueue.enqueue(testList.get(i)));
             assertEquals(testList.get(0), mQueue.peek());
             assertEquals(i + 1, mQueue.size());
         }
@@ -80,8 +85,50 @@ public class IntQueueTest {
 
     @Test
     public void testDequeue() {
+        testList.forEach(n -> mQueue.enqueue(n));
+        for (int i = 0; i < testList.size(); i++) {
+            assertEquals(testList.get(i), mQueue.dequeue());
+            assertEquals(testList.size() - i - 1, mQueue.size());
+        }
+    }
+
+    @Test
+    public void testDequeueEmptyQueue() {
+        assertNull(mQueue.dequeue());
+    }
+
+    @Test
+    public void testEnsureCapacity() {
+        // Test when the initial capacity is not exceeded
+        for (int i = 0; i < 5; i++) {
+            mQueue.enqueue(i);
+        }
+        assertEquals(5, mQueue.size());
+
+        // Test when the initial capacity is exceeded
+        for (int i = 5; i < 12; i++) {
+            mQueue.enqueue(i);
+        }
+        assertEquals(12, mQueue.size());
+    }
+
+    @Test
+    public void testSize() {
         // TODO: write your own unit test
-        fail("Test not implemented");
+        mQueue.enqueue(1);
+        mQueue.enqueue(2);
+        mQueue.enqueue(3);
+        assertEquals(3, mQueue.size());
+    }
+
+    @Test
+    public void testClear() {
+        // TODO: write your own unit test
+        mQueue.enqueue(1);
+        mQueue.enqueue(2);
+        mQueue.enqueue(3);
+        mQueue.clear();
+        assertEquals(0, mQueue.size());
     }
 
     @Test
@@ -105,5 +152,5 @@ public class IntQueueTest {
         }
     }
 
-
+    
 }
